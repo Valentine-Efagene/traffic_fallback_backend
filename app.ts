@@ -1,5 +1,6 @@
 // https://www.toptal.com/express-js/nodejs-typescript-rest-api-pt-1
-// https://www.toptal.com/express-js/nodejs-typescript-rest-api-pt-2?hmsr=joyk.com&utm_source=joyk.com&utm_medium=referral
+// https://www.toptal.com/express-js/nodejs-typescript-rest-api-pt-2
+// https://www.toptal.com/express-js/nodejs-typescript-rest-api-pt-3
 import express from "express"
 import * as http from 'http'
 import * as winston from 'winston'
