@@ -53,7 +53,7 @@ app.get('/', (req: express.Request, res: express.Response) => {
   res.status(200).send(runningMessage)
 })
 
-export default app
+export default server
 
 server.listen(port, () => {
   debugLog('in')

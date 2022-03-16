@@ -25,7 +25,6 @@ export class UsersRoutes extends CommonRoutesConfig {
                 UsersController.listUsers
             )
             .post(
-                UsersMiddleware.validateRequiredUserBodyFields,
                 body('email').isEmail(),
                 body('password')
                     .isLength({ min: 5 })
@@ -46,7 +45,6 @@ export class UsersRoutes extends CommonRoutesConfig {
             .delete(UsersController.removeUser)
 
         this.app.put(`/users/:userId`, [
-            UsersMiddleware.validateRequiredUserBodyFields,
             body('email').isEmail(),
             body('password').isLength({ min: 5 })
                 .withMessage('Must include password (5+ characters)'),
@@ -57,6 +55,7 @@ export class UsersRoutes extends CommonRoutesConfig {
             UsersMiddleware.validateSameEmailBelongToSameUser,
             UsersMiddleware.validateRequiredUserBodyFields,
             UsersMiddleware.validateSameEmailBelongToSameUser,
+            UsersController.put
         ])
 
         this.app.patch(`/users/:userId`, [
@@ -70,6 +69,7 @@ export class UsersRoutes extends CommonRoutesConfig {
             body('permissionFlags').isInt().optional(),
             BodyValidationMiddleware.verifyBodyFieldsErrors,
             UsersMiddleware.validatePatchEmail,
+            UsersController.patch
         ])
 
         this.app.put(`/users/:userId/permissionFlags/:permissionFlags`, [
