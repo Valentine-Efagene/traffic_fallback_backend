@@ -8,8 +8,15 @@ import * as expressWinston from 'express-winston'
 import cors from 'cors'
 import debug from "debug"
 
+import dotenv from 'dotenv';
+const dotenvResult = dotenv.config();
+if (dotenvResult.error) {
+  throw dotenvResult.error;
+}
+
 import { CommonRoutesConfig } from "./common/common.routes.config"
 import { UsersRoutes } from "./users/users.routes.config"
+import { AuthRoutes } from "./auth/auth.routes.config"
 
 const app: express.Application = express()
 const server: http.Server = http.createServer(app)
@@ -31,9 +38,13 @@ const loggerOptions: expressWinston.LoggerOptions = {
 
 if (!process.env.DEBUG) {
   loggerOptions.meta = false // when not debugging, log requests as one-liners
+  /*if (typeof global.it === 'function') {
+    loggerOptions.level = 'http'; // for non-debug test runs, squelch entirely
+  }*/
 }
 
 app.use(expressWinston.logger(loggerOptions))
+routes.push(new AuthRoutes(app)); // independent: can go before or after UsersRoute
 routes.push(new UsersRoutes(app))
 
 const runningMessage = `Server running at http://localhost:${port}`
@@ -41,6 +52,8 @@ const runningMessage = `Server running at http://localhost:${port}`
 app.get('/', (req: express.Request, res: express.Response) => {
   res.status(200).send(runningMessage)
 })
+
+export default app
 
 server.listen(port, () => {
   debugLog('in')

@@ -4,7 +4,7 @@ export interface CreateUserDto {
   password: string;
   firstName?: string;
   lastName?: string;
-  permissionLevel?: number;
+  // permissionLevel?: number;
 }
 
 export interface PutUserDto {
@@ -13,7 +13,8 @@ export interface PutUserDto {
   password: string;
   firstName: string;
   lastName: string;
-  permissionLevel: number;
+  // permissionLevel: number;
+  permissionFlags?: number;
 }
 
 export interface UserDto {
@@ -21,7 +22,7 @@ export interface UserDto {
   password: string;
   firstName?: string;
   lastName?: string;
-  permissionFlag?: number;
+  permissionFlags?: number;
 }
 
 export interface PatchUserDto extends Partial<PutUserDto> { }
