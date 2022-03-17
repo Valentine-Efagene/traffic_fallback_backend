@@ -2,33 +2,18 @@ import { CreateAdDto, PatchAdDto } from './ad.dto';
 import shortid from "shortid";
 import debug from "debug";
 import mongooseService from '../common/service/mongoose.service';
-import { PermissionFlag } from '../common/enum/permissionflag.enum';
+import adSchema from './ad.schema';
+import ModelName from '../common/enum/model.name.enum';
 
 const log: debug.IDebugger = debug('app:in-memory-dao')
 
 class AdDao {
     Schema = mongooseService.getMongoose().Schema
-    adSchema = new this.Schema({
-        _id: String,
-        message: String,
-        color: String,
-        background: String,
-        style: String,
-        baittext: String,
-        trafficSent: String,
-        SocialPageUrl: String,
-        signupText: String,
-        name: String,
-        email: String,
-        successMessage: String,
-        autoResponder: String,
-        type: String,
-        fontSize: String
-    }, { id: false })
-    Ad = mongooseService.getMongoose().model('Ad', this.adSchema)
+    adSchema = adSchema
+    Ad = mongooseService.getMongoose().model(ModelName.AD, this.adSchema)
 
     constructor() {
-        log('Created new instance of UsersDao');
+        log('Created new instance of AdDao');
     }
 
     async addAd(adFields: CreateAdDto) {
@@ -42,7 +27,7 @@ class AdDao {
     }
 
     async getAdById(adId: string) {
-        return this.Ad.findOne({ _id: adId }).populate('Ad').exec()
+        return this.Ad.findOne({ _id: adId }).populate(ModelName.AD).exec()
     }
 
     async getAds(limit = 25, page = 0) {

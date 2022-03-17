@@ -3,6 +3,7 @@ import shortid from "shortid";
 import debug from "debug";
 import mongooseService from '../common/service/mongoose.service';
 import { PermissionFlag } from '../common/enum/permissionflag.enum';
+import ModelName from '../common/enum/model.name.enum';
 
 const log: debug.IDebugger = debug('app:in-memory-dao')
 
@@ -16,7 +17,7 @@ class UsersDao {
         lastName: String,
         permissionFlags: Number,
     }, { id: false })
-    User = mongooseService.getMongoose().model('User', this.userSchema)
+    User = mongooseService.getMongoose().model(ModelName.USER, this.userSchema)
 
     constructor() {
         log('Created new instance of UsersDao');
@@ -39,7 +40,7 @@ class UsersDao {
     }
 
     async getUserById(userId: string) {
-        return this.User.findOne({ _id: userId }).populate('User').exec()
+        return this.User.findOne({ _id: userId }).populate(ModelName.USER).exec()
     }
 
     async getUsers(limit = 25, page = 0) {
