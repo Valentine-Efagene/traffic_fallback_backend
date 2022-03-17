@@ -14,14 +14,14 @@ class PermissionMiddleware {
       try {
         const userPermissionFlags = parseInt(
           res.locals.jwt.permissionFlags
-        );
+        )
         if (userPermissionFlags & requiredPermissionFlag) {
-          next();
+          next()
         } else {
-          res.status(403).send();
+          res.status(403).send('You do not have the required permission');
         }
       } catch (e) {
-        log(e);
+        log(e)
       }
     };
   }

@@ -44,7 +44,7 @@ if (!process.env.DEBUG) {
 }
 
 app.use(expressWinston.logger(loggerOptions))
-routes.push(new AuthRoutes(app)); // independent: can go before or after UsersRoute
+routes.push(new AuthRoutes(app)) // independent: can go before or after UsersRoute
 routes.push(new UsersRoutes(app))
 
 const runningMessage = `Server running at http://localhost:${port}`

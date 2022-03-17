@@ -2,6 +2,7 @@ import { CreateUserDto, PatchUserDto, PutUserDto } from './users.dto';
 import shortid from "shortid";
 import debug from "debug";
 import mongooseService from '../common/service/mongoose.service';
+import { PermissionFlag } from '../common/enum/permissionflag.enum';
 
 const log: debug.IDebugger = debug('app:in-memory-dao')
 
@@ -15,7 +16,7 @@ class UsersDao {
         lastName: String,
         permissionFlags: Number,
     }, { id: false })
-    User = mongooseService.getMongoose().model('Users', this.userSchema)
+    User = mongooseService.getMongoose().model('User', this.userSchema)
 
     constructor() {
         log('Created new instance of UsersDao');
@@ -26,7 +27,7 @@ class UsersDao {
         const user = new this.User({
             _id: userId,
             ...userFields,
-            permissionFlag: 1
+            permissionFlags: PermissionFlag.FREE_PERMISSION
         })
         await user.save()
         return userId

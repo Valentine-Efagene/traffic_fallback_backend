@@ -1,6 +1,9 @@
 import express from 'express'
 import usersService from '../users/users.service'
 import * as argon2 from 'argon2'
+import debug from 'debug';
+
+const log: debug.IDebugger = debug('app:in-memory-auth-middleware')
 
 class AuthMiddleware {
   async verifyUserPassword(
@@ -19,6 +22,7 @@ class AuthMiddleware {
           email: user.email,
           permissionFlags: user.permissionFlags,
         };
+        log('Body: ', req.body)
         return next();
       }
     } res.status(400).send({ errors: ['Invalid email and/or password'] });

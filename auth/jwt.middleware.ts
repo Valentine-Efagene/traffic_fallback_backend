@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 import { Jwt } from '../common/type/jwt'
 import usersService from '../users/users.service'
+import debug from 'debug'
+
+const log: debug.IDebugger = debug('app:in-memory-jwt-middleware')
 
 // @ts-expect-error
 const jwtSecret: string = process.env.JWT_SECRET
@@ -64,10 +67,11 @@ class JwtMiddleware {
             authorization[1],
             jwtSecret
           ) as Jwt;
+          // log('jwt secret: \n', res.locals.jwt)
           next();
         }
       } catch (err) {
-        return res.status(403).send()
+        return res.status(403).send('Token Error')
       }
     } else {
       return res.status(401).send()
